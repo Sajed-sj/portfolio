@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sajed Jemli — Technicien Cybersécurité &amp; Réseaux</title>
+  <meta name="description" content="Portfolio de Sajed Jemli — Étudiant RSI à l'ISET Sidi Bouzid. Spécialisation cybersécurité réseau. Projet NetGuardian Pro, stages TT &amp; Yebni. Disponible pour PFE / stage cybersécurité." />
+  <meta name="author" content="Sajed Jemli" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Favicon monogram -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230B0E14'/><text x='50' y='63' font-family='sans-serif' font-weight='800' font-size='44' fill='%232563EB' text-anchor='middle'>SJ</text></svg>" />
+
+  <style>
+    /* ═══════════════════════════════════════
+       DESIGN TOKENS
+    ═══════════════════════════════════════ */
+    :root {
+      --bg-primary:          #0A0D12;
+      --bg-secondary:        #0F131C;
+      --bg-surface:          #141A26;
+      --bg-surface-elevated: #1B2232;
+      --bg-surface-hover:    #1F2739;
+      --text-primary:        #F8FAFC;
+      --text-secondary:      #94A3B8;
+      --text-muted:          #64748B;
+      --accent:              #2563EB;
+      --accent-hover:        #1D4ED8;
+      --accent-subtle:       rgba(37,99,235,.12);
+      --accent-border:       rgba(37,99,235,.35);
+      --success:             #10B981;
+      --success-bg:          rgba(16,185,129,.1);
+      --success-border:      rgba(16,185,129,.25);
+      --warning:             #F59E0B;
+      --border-subtle:       rgba(255,255,255,.08);
+      --border-medium:       rgba(255,255,255,.15);
+      --border-strong:       rgba(255,255,255,.25);
+      --shadow-sm:           0 1px 3px rgba(0,0,0,.3);
+      --shadow-md:           0 4px 12px rgba(0,0,0,.4);
+      --shadow-lg:           0 12px 32px rgba(0,0,0,.55);
+      --radius-xs:  4px;
+      --radius-sm:  8px;
+      --radius-md:  12px;
+      --radius-lg:  16px;
+      --radius-full:9999px;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-sans:    'Inter', sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+      --nav-height:   64px;
+      --ease:         cubic-bezier(.16,1,.3,1);
+    }
+    [data-theme="light"] {
+      --bg-primary:          #F8FAFC;
+      --bg-secondary:        #F1F5F9;
+      --bg-surface:          #FFFFFF;
+      --bg-surface-elevated: #F8FAFC;
+      --bg-surface-hover:    #EDF2F7;
+      --text-primary:        #0F172A;
+      --text-secondary:      #475569;
+      --text-muted:          #64748B;
+      --accent:              #2563EB;
+      --accent-subtle:       rgba(37,99,235,.08);
+      --accent-border:       rgba(37,99,235,.25);
+      --success:             #059669;
+      --success-bg:          rgba(5,150,105,.1);
+      --success-border:      rgba(5,150,105,.25);
+      --border-subtle:       #E2E8F0;
+      --border-medium:       #CBD5E1;
+      --border-strong:       #94A3B8;
+      --shadow-sm:           0 1px 3px rgba(15,23,42,.06);
+      --shadow-md:           0 4px 12px rgba(15,23,42,.08);
+      --shadow-lg:           0 12px 32px rgba(15,23,42,.12);
+    }
+
+    /* ═══════════════════════════════════════
+       RESET & BASE
+    ═══════════════════════════════════════ */
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; scroll-padding-top:calc(var(--nav-height)+24px); -webkit-font-smoothing:antialiased; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-size: 15px;
+      overflow-x: hidden;
+      transition: background .25s var(--ease), color .25s var(--ease);
+    }
+    a { color:inherit; text-decoration:none; }
+    button { font-family:inherit; cursor:pointer; border:none; background:none; }
+    img { max-width:100%; display:block; }
+    ::selection { background:var(--accent); color:#fff; }
+
+    /* ═══════════════════════════════════════
+       GRID BACKGROUND
+    ═══════════════════════════════════════ */
+    .bg-grid {
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background-image:
+        linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px);
+      background-size: 64px 64px;
+      opacity:.35;
+    }
+
+    /* ═══════════════════════════════════════
+       LAYOUT
+    ═══════════════════════════════════════ */
+    .container { width:100%; max-width:1200px; margin:0 auto; padding:0 1.5rem; }
+    @media(min-width:1024px){ .container { padding:0 2rem; } }
+
+    .section {
+      position:relative; z-index:1;
+      padding: 5rem 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    @media(min-width:768px){ .section { padding:6rem 0; } }
+
+    .section-kicker {
+      display:inline-block;
+      font-family: var(--font-mono);
+      font-size:.75rem; font-weight:600;
+      text-transform:uppercase; letter-spacing:.1em;
+      color:var(--accent);
+      margin-bottom:.75rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.85rem,3.2vw,2.5rem);
+      font-weight:700; letter-spacing:-.03em;
+      margin-bottom:.75rem;
+    }
+    .section-sub {
+      font-size:1rem; color:var(--text-secondary);
+      max-width:640px; line-height:1.65;
+      margin-bottom:3rem;
+    }
+
+    /* ═══════════════════════════════════════
+       NAVBAR
+    ═══════════════════════════════════════ */
+    .navbar {
+      position:fixed; top:0; left:0; right:0;
+      height:var(--nav-height); z-index:1000;
+      background:var(--bg-primary);
+      border-bottom:1px solid var(--border-subtle);
+      transition: background .25s var(--ease);
+    }
+    .navbar.scrolled {
+      background: rgba(10,13,18,.92);
+      backdrop-filter: blur(12px);
+    }
+    [data-theme="light"] .navbar.scrolled { background:rgba(248,250,252,.92); }
+    .nav-inner {
+      height:100%; display:flex;
+      align-items:center; justify-content:space-between;
+    }
+    .nav-brand {
+      display:flex; align-items:center; gap:.75rem;
+      font-family:var(--font-display); font-size:1.05rem;
+      font-weight:700; letter-spacing:-.02em;
+    }
+    .nav-badge {
+      width:32px; height:32px; border-radius:var(--radius-xs);
+      background:var(--bg-surface-elevated);
+      border:1px solid var(--border-medium);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--accent); font-family:var(--font-mono);
+      font-size:.78rem; font-weight:700;
+    }
+    .nav-links {
+      display:none; align-items:center; gap:1.5rem; list-style:none;
+    }
+    @media(min-width:900px){ .nav-links { display:flex; } }
+    .nav-link {
+      font-size:.85rem; font-weight:500; color:var(--text-secondary);
+      transition:color .15s; padding:.4rem 0; position:relative;
+    }
+    .nav-link:hover { color:var(--text-primary); }
+    .nav-link.active { color:var(--text-primary); font-weight:600; }
+    .nav-link.active::after {
+      content:''; position:absolute; bottom:0; left:0; right:0;
+      height:2px; background:var(--accent);
+    }
+    .nav-actions { display:flex; align-items:center; gap:.5rem; }
+    .ctrl-btn {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:36px; height:36px; border-radius:var(--radius-xs);
+      background:var(--bg-surface); border:1px solid var(--border-subtle);
+      color:var(--text-secondary); transition:all .15s; font-size:1rem;
+    }
+    .ctrl-btn:hover { color:var(--text-primary); border-color:var(--border-medium); background:var(--bg-surface-elevated); }
+
+    /* ═══════════════════════════════════════
+       BUTTONS
+    ═══════════════════════════════════════ */
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+      font-size:.85rem; font-weight:600; padding:.65rem 1.25rem;
+      border-radius:var(--radius-sm);
+      transition:all .15s var(--ease); white-space:nowrap;
+      letter-spacing:-.01em; cursor:pointer;
+    }
+    .btn:active { transform:translateY(1px); }
+    .btn-primary {
+      background:var(--accent); color:#fff;
+      border:1px solid var(--accent); box-shadow:var(--shadow-sm);
+    }
+    .btn-primary:hover { background:var(--accent-hover); transform:translateY(-1px); }
+    .btn-secondary {
+      background:var(--bg-surface); color:var(--text-primary);
+      border:1px solid var(--border-medium); box-shadow:var(--shadow-sm);
+    }
+    .btn-secondary:hover { background:var(--bg-surface-elevated); border-color:var(--border-strong); transform:translateY(-1px); }
+    .btn-ghost {
+      color:var(--text-secondary); border:1px solid transparent;
+    }
+    .btn-ghost:hover { color:var(--text-primary); background:var(--bg-surface-hover); }
+
+    /* ═══════════════════════════════════════
+       TECH PILL
+    ═══════════════════════════════════════ */
+    .pill {
+      display:inline-flex; align-items:center; gap:.35rem;
+      font-family:var(--font-mono); font-size:.72rem; font-weight:500;
+      color:var(--text-secondary);
+      background:var(--bg-surface-elevated);
+      border:1px solid var(--border-subtle);
+      padding:.2rem .55rem; border-radius:var(--radius-xs);
+      transition: border-color .15s, color .15s;
+    }
+    .pill:hover { color:var(--text-primary); border-color:var(--border-medium); }
+    .pill.hi {
+      color:var(--text-primary);
+      background:var(--accent-subtle);
+      border-color:var(--accent-border);
+      font-weight:600;
+    }
+
+    /* ═══════════════════════════════════════
+       GLASS CARD
+    ═══════════════════════════════════════ */
+    .card {
+      background:var(--bg-surface);
+      border:1px solid var(--border-subtle);
+      border-radius:var(--radius-md);
+      box-shadow:var(--shadow-sm);
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .card:hover { border-color:var(--border-medium); box-shadow:var(--shadow-md); }
+
+    /* ═══════════════════════════════════════
+       ── HERO ──
+    ═══════════════════════════════════════ */
+    #hero {
+      min-height:calc(92vh - var(--nav-height));
+      display:flex; align-items:center;
+      padding-top:calc(var(--nav-height) + 2.5rem);
+      padding-bottom:4rem;
+      border-bottom:1px solid var(--border-subtle);
+      position:relative; z-index:1;
+    }
+    .hero-grid {
+      display:grid; grid-template-columns:1fr;
+      gap:3rem; align-items:center;
+    }
+    @media(min-width:960px){
+      .hero-grid { grid-template-columns:1.3fr .7fr; gap:3.5rem; }
+    }
+    .status-pill {
+      display:inline-flex; align-items:center; gap:.5rem;
+      font-family:var(--font-mono); font-size:.75rem; font-weight:600;
+      color:var(--success); background:var(--success-bg);
+      border:1px solid var(--success-border);
+      padding:.3rem .75rem; border-radius:var(--radius-full);
+      width:fit-content; margin-bottom:1.25rem;
+    }
+    .dot {
+      width:6px; height:6px; border-radius:50%;
+      background:var(--success);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100%{ opacity:1; transform:scale(1); }
+      50%{ opacity:.5; transform:scale(1.3); }
+    }
+    .hero-headline {
+      font-family:var(--font-display);
+      font-size:clamp(2.2rem,4vw,3.4rem);
+      font-weight:700; line-height:1.15; letter-spacing:-.035em;
+      margin-bottom:1.25rem;
+    }
+    .hero-headline .hl { color:var(--accent); }
+    .hero-lead {
+      font-size:1.05rem; color:var(--text-secondary);
+      line-height:1.7; max-width:580px; margin-bottom:1.75rem;
+    }
+    .hero-actions { display:flex; flex-wrap:wrap; gap:.75rem; margin-bottom:1.5rem; }
+    .hero-socials {
+      display:flex; align-items:center; gap:1rem;
+      padding-top:1.25rem; border-top:1px solid var(--border-subtle);
+      flex-wrap:wrap;
+    }
+    .social-link {
+      display:inline-flex; align-items:center; gap:.4rem;
+      font-size:.8rem; font-weight:500; color:var(--text-muted);
+      transition:color .15s;
+    }
+    .social-link:hover { color:var(--text-primary); }
+
+    /* ID Card */
+    .id-card {
+      background:var(--bg-surface);
+      border:1px solid var(--border-medium);
+      border-radius:var(--radius-md);
+      overflow:hidden;
+      box-shadow:var(--shadow-lg);
+      max-width:300px; margin:0 auto;
+      position:relative;
+    }
+    .id-card-top {
+      background: linear-gradient(135deg, #1e3a8a 0%, var(--accent) 100%);
+      padding:1.25rem; display:flex; align-items:center; gap:.75rem;
+    }
+    .id-avatar {
+      width:60px; height:60px; border-radius:var(--radius-sm);
+      border:2px solid rgba(255,255,255,.3);
+      overflow:hidden; background:var(--bg-surface-elevated);
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0;
+    }
+    .id-avatar img { width:100%; height:100%; object-fit:cover; object-position:top; }
+    .id-avatar-placeholder {
+      font-family:var(--font-display); font-size:1.5rem;
+      font-weight:800; color:#fff; opacity:.7;
+    }
+    .id-name { font-family:var(--font-display); font-size:1rem; font-weight:700; color:#fff; }
+    .id-role { font-size:.78rem; color:rgba(255,255,255,.75); margin-top:.15rem; }
+    .id-body { padding:1.25rem; display:flex; flex-direction:column; gap:.85rem; }
+    .id-row { display:flex; flex-direction:column; gap:.15rem; }
+    .id-label {
+      font-family:var(--font-mono); font-size:.65rem; font-weight:600;
+      color:var(--text-muted); text-transform:uppercase; letter-spacing:.06em;
+    }
+    .id-value { font-size:.82rem; font-weight:500; color:var(--text-primary); line-height:1.4; }
+    .id-footer {
+      border-top:1px solid var(--border-subtle);
+      padding:.75rem 1.25rem;
+      display:flex; justify-content:center;
+    }
+
+    /* ═══════════════════════════════════════
+       ── ABOUT ──
+    ═══════════════════════════════════════ */
+    .about-grid {
+      display:grid; grid-template-columns:1fr;
+      gap:2.5rem; align-items:start;
+    }
+    @media(min-width:960px){
+      .about-grid { grid-template-columns:1.2fr .8fr; }
+    }
+    .about-text p { color:var(--text-secondary); line-height:1.75; margin-bottom:1rem; }
+    .about-text p:last-child { margin-bottom:0; }
+    .stats-grid {
+      display:grid; grid-template-columns:repeat(2,1fr); gap:.85rem;
+    }
+    .stat-box {
+      background:var(--bg-surface); border:1px solid var(--border-subtle);
+      border-radius:var(--radius-sm); padding:1.25rem 1rem;
+      display:flex; flex-direction:column; gap:.25rem;
+    }
+    .stat-num {
+      font-family:var(--font-display); font-size:1.85rem;
+      font-weight:700; color:var(--accent);
+    }
+    .stat-lbl {
+      font-family:var(--font-mono); font-size:.72rem; font-weight:600;
+      color:var(--text-secondary); text-transform:uppercase; letter-spacing:.05em;
+    }
+
+    /* ═══════════════════════════════════════
+       ── SKILLS ──
+    ═══════════════════════════════════════ */
+    .skills-tabs {
+      display:flex; flex-wrap:wrap; gap:.4rem; margin-bottom:1.5rem;
+    }
+    .tab-btn {
+      font-size:.8rem; font-weight:600;
+      padding:.45rem 1rem; border-radius:var(--radius-xs);
+      background:var(--bg-surface); border:1px solid var(--border-subtle);
+      color:var(--text-secondary); transition:all .15s;
+    }
+    .tab-btn:hover { color:var(--text-primary); border-color:var(--border-medium); }
+    .tab-btn.active {
+      background:var(--accent); color:#fff;
+      border-color:var(--accent);
+    }
+    .skills-panel { display:none; }
+    .skills-panel.active { display:grid; }
+    .skills-grid {
+      grid-template-columns: repeat(auto-fill, minmax(230px,1fr));
+      gap:.85rem;
+    }
+    .skill-card {
+      background:var(--bg-surface); border:1px solid var(--border-subtle);
+      border-radius:var(--radius-xs); padding:.9rem 1rem;
+      display:flex; align-items:center; justify-content:space-between;
+      transition: border-color .15s, background .15s;
+    }
+    .skill-card:hover { border-color:var(--border-medium); background:var(--bg-surface-elevated); }
+    .skill-card.hi { border-left:2px solid var(--accent); }
+    .skill-name { font-size:.875rem; font-weight:500; }
+    .skill-level {
+      font-family:var(--font-mono); font-size:.7rem; font-weight:600;
+      padding:.15rem .45rem; border-radius:var(--radius-xs);
+    }
+    .lvl-3 { background:var(--accent-subtle); color:var(--accent); border:1px solid var(--accent-border); }
+    .lvl-2 { background:rgba(245,158,11,.1); color:var(--warning); border:1px solid rgba(245,158,11,.3); }
+    .lvl-1 { background:var(--bg-surface-elevated); color:var(--text-muted); border:1px solid var(--border-subtle); }
+
+    /* ═══════════════════════════════════════
+       ── PROJECT ──
+    ═══════════════════════════════════════ */
+    .project-banner {
+      background: linear-gradient(135deg, #0f1b3d 0%, #0a0d12 60%, #0d1a1f 100%);
+      border:1px solid var(--accent-border);
+      border-radius:var(--radius-md);
+      padding:2rem;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:1.5rem;
+    }
+    @media(min-width:800px){ .project-banner { grid-template-columns:1.5fr 1fr; } }
+    .project-badge {
+      font-family:var(--font-mono); font-size:.7rem; font-weight:600;
+      padding:.2rem .55rem; border-radius:var(--radius-xs);
+      background:var(--accent-subtle); color:var(--accent);
+      border:1px solid var(--accent-border); width:fit-content;
+      margin-bottom:.75rem;
+    }
+    .project-title { font-family:var(--font-display); font-size:1.5rem; font-weight:700; margin-bottom:.5rem; }
+    .project-desc { color:var(--text-secondary); font-size:.9rem; line-height:1.65; margin-bottom:1rem; }
+    .project-specs {
+      background:rgba(0,0,0,.3); border:1px solid var(--border-subtle);
+      border-radius:var(--radius-sm); padding:1rem;
+      font-family:var(--font-mono); font-size:.8rem;
+    }
+    .spec-title {
+      color:var(--accent); font-weight:600; margin-bottom:.5rem;
+      font-size:.72rem; text-transform:uppercase; letter-spacing:.06em;
+    }
+    .spec-item {
+      color:var(--text-secondary); padding:.2rem 0;
+      border-bottom:1px solid var(--border-subtle);
+    }
+    .spec-item:last-child { border-bottom:none; }
+    .spec-item span { color:var(--text-primary); }
+
+    /* ═══════════════════════════════════════
+       ── TIMELINE (Expériences) ──
+    ═══════════════════════════════════════ */
+    .timeline { position:relative; display:flex; flex-direction:column; gap:1.75rem; }
+    .timeline::before {
+      content:''; position:absolute;
+      top:1.25rem; bottom:1.25rem; left:12px;
+      width:1px; background:var(--border-medium);
+    }
+    @media(min-width:768px){ .timeline::before { left:16px; } }
+    .tl-item { position:relative; padding-left:36px; }
+    @media(min-width:768px){ .tl-item { padding-left:48px; } }
+    .tl-node {
+      position:absolute; left:7px; top:1.6rem;
+      width:11px; height:11px; border-radius:50%;
+      background:var(--bg-primary); border:2px solid var(--accent);
+      z-index:2;
+    }
+    @media(min-width:768px){ .tl-node { left:11px; } }
+    .tl-card { padding:1.75rem; display:flex; flex-direction:column; gap:1rem; }
+    .tl-role { font-size:1.15rem; font-weight:700; }
+    .tl-company { font-size:.9rem; color:var(--accent); font-weight:600; margin-top:.15rem; }
+    .tl-meta {
+      display:flex; align-items:center; gap:.75rem;
+      font-family:var(--font-mono); font-size:.75rem; color:var(--text-muted);
+    }
+    .tl-bullets { list-style:none; display:flex; flex-direction:column; gap:.45rem; }
+    .tl-bullets li {
+      display:flex; align-items:flex-start; gap:.5rem;
+      font-size:.85rem; color:var(--text-secondary); line-height:1.55;
+    }
+    .tl-bullets li::before { content:'–'; color:var(--text-muted); flex-shrink:0; }
+
+    /* ═══════════════════════════════════════
+       ── CERTIFICATES ──
+    ═══════════════════════════════════════ */
+    .certs-grid {
+      display:grid; grid-template-columns:1fr; gap:1.25rem;
+    }
+    @media(min-width:600px){ .certs-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(min-width:1000px){ .certs-grid { grid-template-columns:repeat(2,1fr); } }
+    .cert-card {
+      background:var(--bg-surface); border:1px solid var(--border-subtle);
+      border-radius:var(--radius-md); overflow:hidden;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .cert-card:hover { border-color:var(--accent-border); box-shadow:var(--shadow-md); }
+    .cert-img-wrap { overflow:hidden; background:var(--bg-secondary); }
+    .cert-img-wrap img {
+      width:100%; height:200px; object-fit:cover;
+      transition:transform .3s var(--ease);
+    }
+    .cert-card:hover .cert-img-wrap img { transform:scale(1.03); }
+    .cert-info { padding:1.1rem; display:flex; flex-direction:column; gap:.5rem; }
+    .cert-badge {
+      font-family:var(--font-mono); font-size:.68rem; font-weight:600;
+      padding:.2rem .5rem; border-radius:var(--radius-xs);
+      background:var(--accent-subtle); color:var(--accent);
+      border:1px solid var(--accent-border); width:fit-content;
+    }
+    .cert-name { font-weight:700; font-size:.95rem; }
+    .cert-issuer { font-size:.82rem; color:var(--text-secondary); }
+    .cert-date { font-family:var(--font-mono); font-size:.72rem; color:var(--text-muted); }
+
+    /* ═══════════════════════════════════════
+       ── CONTACT ──
+    ═══════════════════════════════════════ */
+    .contact-grid {
+      display:grid; grid-template-columns:1fr; gap:2.5rem;
+    }
+    @media(min-width:900px){ .contact-grid { grid-template-columns:.9fr 1.1fr; } }
+    .contact-channels { display:grid; grid-template-columns:1fr; gap:.75rem; }
+    @media(min-width:500px){ .contact-channels { grid-template-columns:repeat(2,1fr); } }
+    .ch-card {
+      background:var(--bg-surface); border:1px solid var(--border-subtle);
+      border-radius:var(--radius-sm); padding:1rem;
+      display:flex; align-items:center; gap:.85rem;
+      transition: border-color .15s, background .15s;
+    }
+    .ch-card:hover { border-color:var(--border-medium); background:var(--bg-surface-elevated); }
+    .ch-icon {
+      width:38px; height:38px; border-radius:var(--radius-xs);
+      background:var(--bg-surface-elevated); border:1px solid var(--border-subtle);
+      color:var(--accent); display:flex; align-items:center; justify-content:center;
+      flex-shrink:0; font-size:1.1rem;
+    }
+    .ch-label { font-size:.7rem; color:var(--text-muted); font-family:var(--font-mono); }
+    .ch-value { font-size:.88rem; font-weight:500; }
+    .contact-form {
+      background:var(--bg-surface); border:1px solid var(--border-subtle);
+      border-radius:var(--radius-md); padding:1.75rem;
+      display:flex; flex-direction:column; gap:1.15rem;
+    }
+    .form-group { display:flex; flex-direction:column; gap:.35rem; }
+    .form-label { font-family:var(--font-mono); font-size:.72rem; font-weight:600; color:var(--text-secondary); }
+    .form-input, .form-textarea {
+      font-family:var(--font-sans); font-size:.875rem;
+      color:var(--text-primary); background:var(--bg-secondary);
+      border:1px solid var(--border-subtle); border-radius:var(--radius-xs);
+      padding:.65rem .85rem;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .form-input:focus, .form-textarea:focus {
+      outline:none; border-color:var(--accent);
+      box-shadow:0 0 0 3px rgba(37,99,235,.25);
+    }
+    .form-textarea { min-height:110px; resize:vertical; }
+
+    /* ═══════════════════════════════════════
+       ── FOOTER ──
+    ═══════════════════════════════════════ */
+    footer {
+      border-top:1px solid var(--border-subtle);
+      background:var(--bg-secondary);
+      padding:3rem 0 2rem;
+      position:relative; z-index:1;
+    }
+    .footer-inner { display:flex; flex-direction:column; gap:1.75rem; }
+    .footer-top {
+      display:flex; flex-direction:column;
+      justify-content:space-between; align-items:flex-start; gap:1.25rem;
+    }
+    @media(min-width:768px){ .footer-top { flex-direction:row; align-items:center; } }
+    .footer-bottom {
+      display:flex; flex-direction:column;
+      justify-content:space-between; align-items:center; gap:.75rem;
+      padding-top:1.25rem; border-top:1px solid var(--border-subtle);
+      font-size:.8rem; color:var(--text-muted);
+    }
+    @media(min-width:768px){ .footer-bottom { flex-direction:row; } }
+
+    /* ═══════════════════════════════════════
+       MOBILE NAV DRAWER
+    ═══════════════════════════════════════ */
+    .mobile-menu-btn {
+      display:flex; align-items:center; justify-content:center;
+      width:36px; height:36px; border-radius:var(--radius-xs);
+      background:var(--bg-surface); border:1px solid var(--border-subtle);
+      color:var(--text-primary); font-size:1.1rem;
+    }
+    @media(min-width:900px){ .mobile-menu-btn { display:none; } }
+    .drawer {
+      position:fixed; inset:0; z-index:1100;
+      background:rgba(10,13,18,.7);
+      backdrop-filter:blur(8px);
+      display:flex; justify-content:flex-end;
+      opacity:0; pointer-events:none;
+      transition:opacity .25s var(--ease);
+    }
+    .drawer.open { opacity:1; pointer-events:auto; }
+    .drawer-content {
+      width:100%; max-width:280px; height:100%;
+      background:var(--bg-secondary); border-left:1px solid var(--border-subtle);
+      padding:5rem 1.5rem 2rem;
+      display:flex; flex-direction:column; gap:1.25rem;
+      transform:translateX(100%);
+      transition:transform .25s var(--ease);
+    }
+    .drawer.open .drawer-content { transform:translateX(0); }
+    .drawer-link {
+      font-size:1rem; font-weight:600; color:var(--text-secondary);
+      padding:.5rem 0; border-bottom:1px solid var(--border-subtle);
+      transition:color .15s;
+    }
+    .drawer-link:hover { color:var(--text-primary); }
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE TWEAKS
+    ═══════════════════════════════════════ */
+    @media(max-width:768px){
+      .section { padding:3.25rem 0; }
+      .section-title { font-size:1.65rem; }
+      .hero-headline { font-size:1.85rem; }
+      .hero-lead { font-size:.925rem; }
+      .id-card { max-width:220px; }
+      .project-banner { padding:1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background grid -->
+<div class="bg-grid" aria-hidden="true"></div>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="#hero" class="nav-brand">
+      <div class="nav-badge">SJ</div>
+      <span>Sajed Jemli</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about"      class="nav-link">À propos</a></li>
+      <li><a href="#skills"     class="nav-link">Compétences</a></li>
+      <li><a href="#project"    class="nav-link">Projet</a></li>
+      <li><a href="#github"     class="nav-link">GitHub</a></li>
+      <li><a href="#experience" class="nav-link">Expériences</a></li>
+      <li><a href="#certs"      class="nav-link">Certificats</a></li>
+      <li><a href="#contact"    class="nav-link">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="ctrl-btn" id="themeToggle" title="Changer le thème" aria-label="toggle theme">🌙</button>
+      <a href="assets/attestation_tt.jpg" class="btn btn-primary" download style="font-size:.8rem;padding:.5rem 1rem;">
+        ⬇ Attestations
+      </a>
+      <button class="mobile-menu-btn" id="menuBtn" aria-label="menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Drawer -->
+<div class="drawer" id="drawer">
+  <div class="drawer-content">
+    <a href="#about"      class="drawer-link" onclick="closeDrawer()">À propos</a>
+    <a href="#skills"     class="drawer-link" onclick="closeDrawer()">Compétences</a>
+    <a href="#project"    class="drawer-link" onclick="closeDrawer()">Projet</a>
+    <a href="#experience" class="drawer-link" onclick="closeDrawer()">Expériences</a>
+    <a href="#certs"      class="drawer-link" onclick="closeDrawer()">Certificats</a>
+    <a href="#contact"    class="drawer-link" onclick="closeDrawer()">Contact</a>
+  </div>
+</div>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-grid">
+
+      <!-- Left -->
+      <div class="hero-content">
+        <div class="status-pill">
+          <span class="dot"></span>
+          Disponible — Stage PFE / Poste junior cybersécurité
+        </div>
+
+        <h1 class="hero-headline">
+          Sajed Jemli<br/>
+          <span class="hl">Réseaux &amp;</span><br/>
+          <span class="hl">Cybersécurité</span>
+        </h1>
+
+        <p class="hero-lead">
+          Étudiant en 3ᵉ année RSI à l'ISET Sidi Bouzid. Spécialisation progressive en cybersécurité réseau — 
+          Cisco, OSPF, ACL, SSH — à travers le projet <strong>NetGuardian Pro</strong> et deux stages 
+          en entreprise (TT Telecom &amp; Yebni). Objectif : Analyste SOC junior / Technicien cybersécurité.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#project"    class="btn btn-primary">🛡 Voir NetGuardian Pro</a>
+          <a href="#experience" class="btn btn-secondary">📋 Mes expériences</a>
+          <a href="#contact"    class="btn btn-ghost">✉ Me contacter</a>
+        </div>
+
+        <div class="hero-socials">
+          <a href="https://linkedin.com/in/sajed-jemli" target="_blank" class="social-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zM9 17H6.5v-7H9v7zM7.75 8.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zM18 17h-2.5v-3.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5V17H10v-7h2.5v.97C13.07 10.36 13.78 10 14.5 10c1.93 0 3.5 1.57 3.5 3.5V17z"/></svg>
+            LinkedIn
+          </a>
+          <a href="https://github.com/Sajed-sj" target="_blank" class="social-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.933.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            Sajed-sj
+          </a>
+          <a href="mailto:sajed.jemli@email.com" class="social-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4.236l-8 4.882-8-4.882V6h16v2.236z"/></svg>
+            sajed.jemli@email.com
+          </a>
+        </div>
+      </div>
+
+      <!-- Right — ID Card -->
+      <div style="display:flex;justify-content:center;">
+        <div class="id-card">
+          <div class="id-card-top">
+            <div class="id-avatar">
+              <!-- ⚠️ Remplace par ta photo : <img src="assets/photo_sajed.jpg" alt="Sajed Jemli" /> -->
+              <div class="id-avatar-placeholder">SJ</div>
+            </div>
+            <div>
+              <div class="id-name">Sajed Jemli</div>
+              <div class="id-role">Analyste SOC junior · RSI</div>
+            </div>
+          </div>
+          <div class="id-body">
+            <div class="id-row">
+              <div class="id-label">Formation</div>
+              <div class="id-value">Licence RSI — ISET Sidi Bouzid (2022–2025)</div>
+            </div>
+            <div class="id-row">
+              <div class="id-label">Projet phare</div>
+              <div class="id-value">Cisco NetGuardian Pro<br/><span style="font-size:.75rem;color:var(--text-muted)">OSPF · VLAN · ACL · SSH · Port Security</span></div>
+            </div>
+            <div class="id-row">
+              <div class="id-label">Stages</div>
+              <div class="id-value">TT Telecom Sidi Bouzid (2026)<br/>Yebni Information &amp; Communication (2025)</div>
+            </div>
+            <div class="id-row">
+              <div class="id-label">Langues</div>
+              <div class="id-value">🇹🇳 Arabe · 🇫🇷 Français B2 · 🇬🇧 Anglais B1</div>
+            </div>
+          </div>
+          <div class="id-footer">
+            <span class="pill hi">🔍 Open to PFE / Stage cybersécurité</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ ABOUT ══════════════ -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-kicker">// 01. À propos</div>
+    <h2 class="section-title">Mon parcours</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          Je suis étudiant en 3ᵉ année Réseaux et Systèmes Informatiques à l'ISET Sidi Bouzid. 
+          Ma spécialisation se construit progressivement autour de la <strong>cybersécurité réseau</strong> : 
+          sécurisation d'infrastructures Cisco, analyse de trafic et détection d'incidents.
+        </p>
+        <p>
+          Mon projet académique <strong>Cisco NetGuardian Pro</strong> m'a permis de concevoir et déployer 
+          un réseau d'entreprise complet de bout en bout sous Packet Tracer : VLAN, trunks 802.1Q, 
+          routage OSPF, ACL étendues, SSH et Port Security. Ce projet est ma principale preuve 
+          technique, que je peux défendre en détail lors d'un entretien.
+        </p>
+        <p>
+          Deux stages validés en entreprise — Yebni Information &amp; Communication (Tunis) et 
+          Telecom Sidi Bouzid (Direction Régionale TT) — m'ont exposé à la réalité des 
+          environnements réseau professionnels : maintenance, diagnostic d'incidents, configuration 
+          d'équipements Cisco en production.
+        </p>
+        <p>
+          Mon objectif à court terme : un <strong>stage PFE ou premier poste d'analyste SOC junior</strong> 
+          pour développer une expérience pratique en surveillance d'infrastructure. À moyen terme : 
+          certification Cisco CyberOps Associate et évolution vers l'ingénierie en cybersécurité.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem;">
+          <span class="pill hi">Cisco OSPF</span>
+          <span class="pill hi">VLAN / ACL</span>
+          <span class="pill hi">Packet Tracer</span>
+          <span class="pill">Python</span>
+          <span class="pill">Linux</span>
+          <span class="pill">TryHackMe</span>
+          <span class="pill">Wireshark</span>
+        </div>
+      </div>
+      <div>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-num">2</div>
+            <div class="stat-lbl">Stages validés</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">1</div>
+            <div class="stat-lbl">Projet réseau complet</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">3</div>
+            <div class="stat-lbl">Ans de formation RSI</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">2</div>
+            <div class="stat-lbl">Certificats extra</div>
+          </div>
+        </div>
+        <div style="margin-top:.85rem;padding:1rem;background:var(--bg-surface);border:1px solid var(--accent-border);border-radius:var(--radius-sm);">
+          <div style="font-family:var(--font-mono);font-size:.7rem;color:var(--accent);font-weight:600;margin-bottom:.5rem;">OBJECTIF MÉTIER</div>
+          <div style="font-size:.88rem;color:var(--text-secondary);line-height:1.6;">
+            <strong style="color:var(--text-primary);">Court terme :</strong> Analyste SOC junior / Technicien cybersécurité<br/>
+            <strong style="color:var(--text-primary);">Moyen terme :</strong> Ingénieur cybersécurité (après CyberOps Associate)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ SKILLS ══════════════ -->
+<section class="section" id="skills">
+  <div class="container">
+    <div class="section-kicker">// 02. Compétences</div>
+    <h2 class="section-title">Stack technique</h2>
+    <p class="section-sub">Niveaux évalués de 1 à 5, avec preuve pour chaque compétence (Livrable 1).</p>
+
+    <div class="skills-tabs">
+      <button class="tab-btn active" data-tab="network">Réseaux</button>
+      <button class="tab-btn" data-tab="security">Sécurité</button>
+      <button class="tab-btn" data-tab="dev">Dev / Outils</button>
+      <button class="tab-btn" data-tab="soft">Soft Skills</button>
+    </div>
+
+    <!-- Réseaux -->
+    <div class="skills-panel skills-grid active" id="tab-network">
+      <div class="skill-card hi">
+        <div>
+          <div class="skill-name">Réseaux Cisco (routeurs/commutateurs)</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Packet Tracer — NetGuardian Pro</div>
+        </div>
+        <span class="skill-level lvl-3">3/5</span>
+      </div>
+      <div class="skill-card hi">
+        <div>
+          <div class="skill-name">IPv4 / IPv6 — Adressage</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Cours + NetGuardian Pro</div>
+        </div>
+        <span class="skill-level lvl-3">3/5</span>
+      </div>
+      <div class="skill-card hi">
+        <div>
+          <div class="skill-name">VLAN + Trunks 802.1Q</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">NetGuardian Pro — 3 LAN</div>
+        </div>
+        <span class="skill-level lvl-3">3/5</span>
+      </div>
+      <div class="skill-card hi">
+        <div>
+          <div class="skill-name">Routage OSPF</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Déployé dans NetGuardian Pro</div>
+        </div>
+        <span class="skill-level lvl-3">3/5</span>
+      </div>
+      <div class="skill-card">
+        <div>
+          <div class="skill-name">Routage EIGRP</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Cours théorique</div>
+        </div>
+        <span class="skill-level lvl-2">2/5</span>
+      </div>
+      <div class="skill-card">
+        <div>
+          <div class="skill-name">Administration système Linux</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Bases en cours</div>
+        </div>
+        <span class="skill-level lvl-2">2/5</span>
+      </div>
+    </div>
+
+    <!-- Sécurité -->
+    <div class="skills-panel skills-grid" id="tab-security">
+      <div class="skill-card hi">
+        <div>
+          <div class="skill-name">ACL étendues (Access Control Lists)</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Mis en œuvre dans NetGuardian Pro</div>
+        </div>
+        <span class="skill-level lvl-2">2/5</span>
+      </div>
+      <div class="skill-card hi">
+        <div>
+          <div class="skill-name">SSH — Administration sécurisée</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Configuré dans NetGuardian Pro</div>
+        </div>
+        <span class="skill-level lvl-2">2/5</span>
+      </div>
+      <div class="skill-card hi">
+        <div>
+          <div class="skill-name">Port Security (Cisco)</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Déployé dans NetGuardian Pro</div>
+        </div>
+        <span class="skill-level lvl-2">2/5</span>
+      </div>
+      <div class="skill-card">
+        <div>
+          <div class="skill-name">Wireshark — Analyse trafic</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Découverte — TryHackMe en cours</div>
+        </div>
+        <span class="skill-level lvl-1">1/5</span>
+      </div>
+      <div class="skill-card">
+        <div>
+          <div class="skill-name">Nmap — Scan réseau</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Découverte</div>
+        </div>
+        <span class="skill-level lvl-1">1/5</span>
+      </div>
+      <div class="skill-card">
+        <div>
+          <div class="skill-name">SIEM (surveillance SOC)</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">À acquérir — priorité PFE</div>
+        </div>
+        <span class="skill-level lvl-1">0/5</span>
+      </div>
+    </div>
+
+    <!-- Dev -->
+    <div class="skills-panel skills-grid" id="tab-dev">
+      <div class="skill-card hi">
+        <div>
+          <div class="skill-name">Python — Scripting</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Travaux de formation</div>
+        </div>
+        <span class="skill-level lvl-3">3/5</span>
+      </div>
+      <div class="skill-card">
+        <div>
+          <div class="skill-name">Cisco Packet Tracer</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">NetGuardian Pro complet</div>
+        </div>
+        <span class="skill-level lvl-3">3/5</span>
+      </div>
+      <div class="skill-card">
+        <div>
+          <div class="skill-name">Linux (Ubuntu / commandes)</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Bases de cours</div>
+        </div>
+        <span class="skill-level lvl-2">2/5</span>
+      </div>
+      <div class="skill-card">
+        <div>
+          <div class="skill-name">Docker</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Bases</div>
+        </div>
+        <span class="skill-level lvl-1">1/5</span>
+      </div>
+      <div class="skill-card">
+        <div>
+          <div class="skill-name">Git / GitHub</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Utilisation basique</div>
+        </div>
+        <span class="skill-level lvl-2">2/5</span>
+      </div>
+    </div>
+
+    <!-- Soft Skills -->
+    <div class="skills-panel skills-grid" id="tab-soft">
+      <div class="skill-card hi">
+        <div>
+          <div class="skill-name">Résolution de problèmes techniques</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Diagnostic incidents (stage TT)</div>
+        </div>
+        <span class="skill-level lvl-3">Prouvé</span>
+      </div>
+      <div class="skill-card hi">
+        <div>
+          <div class="skill-name">Leadership &amp; Communication</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Certificat Art of Leadership — ISET</div>
+        </div>
+        <span class="skill-level lvl-3">Certifié</span>
+      </div>
+      <div class="skill-card hi">
+        <div>
+          <div class="skill-name">Soft Skills professionnels</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Certificat Tunivisions Club</div>
+        </div>
+        <span class="skill-level lvl-3">Certifié</span>
+      </div>
+      <div class="skill-card">
+        <div>
+          <div class="skill-name">Esprit analytique</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Conception NetGuardian Pro</div>
+        </div>
+        <span class="skill-level lvl-3">Prouvé</span>
+      </div>
+      <div class="skill-card">
+        <div>
+          <div class="skill-name">Capacité d'apprentissage autonome</div>
+          <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">TryHackMe, Hack The Box</div>
+        </div>
+        <span class="skill-level lvl-3">En cours</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PROJECT ══════════════ -->
+<section class="section" id="project">
+  <div class="container">
+    <div class="section-kicker">// 03. Projet phare</div>    <h2 class="section-title">Cisco NetGuardian Pro</h2>
+    <p class="section-sub">Réseau d'entreprise sécurisé de bout en bout, conçu et déployé sous Cisco Packet Tracer.</p>
+
+    <div class="project-banner">
+      <div>
+        <div class="project-badge">🛡 Projet académique — ISET Sidi Bouzid</div>
+        <h3 class="project-title">NetGuardian Pro</h3>
+        <p class="project-desc">
+          Conception et déploiement d'un réseau d'entreprise complet et sécurisé sous Cisco Packet Tracer. 
+          Le projet simule une infrastructure réelle avec trois sites (LAN), des équipements Cisco de niveau 
+          professionnel, et une sécurisation multicouche allant de la segmentation VLAN jusqu'au contrôle 
+          d'accès aux ports physiques.
+        </p>
+        <p class="project-desc" style="margin-bottom:1.5rem;">
+          Chaque choix technique est justifiable en entretien : pourquoi OSPF plutôt que RIP, 
+          pourquoi des ACL étendues plutôt que standard, comment SSH remplace Telnet pour sécuriser 
+          l'administration.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.5rem;">
+          <span class="pill hi">Cisco 2911</span>
+          <span class="pill hi">Cisco 2960</span>
+          <span class="pill hi">OSPF</span>
+          <span class="pill hi">VLAN</span>
+          <span class="pill hi">802.1Q</span>
+          <span class="pill hi">ACL</span>
+          <span class="pill hi">SSH</span>
+          <span class="pill hi">Port Security</span>
+          <span class="pill">Packet Tracer</span>
+        </div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
+          <a href="#contact" class="btn btn-primary">📩 Demander la démo</a>
+          <a href="#contact" class="btn btn-secondary">📄 Voir la documentation</a>
+        </div>
+      </div>
+
+      <div class="project-specs">
+        <div class="spec-title">⚙ Spécifications techniques</div>
+        <div class="spec-item">Routeurs : <span>3 × Cisco 2911</span></div>
+        <div class="spec-item">Commutateurs : <span>3 × Cisco 2960</span></div>
+        <div class="spec-item">LAN : <span>3 réseaux segmentés</span></div>
+        <div class="spec-item">Routage : <span>OSPF (multi-area)</span></div>
+        <div class="spec-item">Segmentation : <span>VLAN + trunks 802.1Q</span></div>
+        <div class="spec-item">Filtrage : <span>ACL étendues</span></div>
+        <div class="spec-item">Admin sécurisée : <span>SSH (Telnet désactivé)</span></div>
+        <div class="spec-item">Sécurité ports : <span>Port Security</span></div>
+        <div class="spec-title" style="margin-top:1rem;">🎯 Objectifs atteints</div>
+        <div class="spec-item">✅ <span>Isolation inter-VLAN</span></div>
+        <div class="spec-item">✅ <span>Contrôle d'accès réseau</span></div>
+        <div class="spec-item">✅ <span>Admin à distance sécurisée</span></div>
+        <div class="spec-item">✅ <span>Protection contre MAC flooding</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ GITHUB PROJECTS ══════════════ -->
+<section class="section" id="github">
+  <div class="container">
+    <div class="section-kicker">// 04. GitHub</div>
+    <h2 class="section-title">Projets sur GitHub</h2>
+    <p class="section-sub">
+      Dépôts publics disponibles sur
+      <a href="https://github.com/Sajed-sj" target="_blank" style="color:var(--accent);">github.com/Sajed-sj ↗</a>
+    </p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin-bottom:2rem;">
+
+      <!-- ai-study-game -->
+      <a href="https://github.com/Sajed-sj/ai-study-game" target="_blank"
+         style="text-decoration:none;"
+         class="card" style="padding:1.25rem;display:flex;flex-direction:column;gap:.75rem;">
+        <div style="padding:1.25rem;display:flex;flex-direction:column;gap:.75rem;">
+          <div style="display:flex;align-items:center;gap:.5rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--text-muted)"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.933.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            <span style="font-weight:700;color:var(--accent);font-size:.95rem;">ai-study-game</span>
+            <span style="font-family:var(--font-mono);font-size:.65rem;padding:.1rem .4rem;background:var(--bg-surface-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-xs);color:var(--text-muted);">Public</span>
+          </div>
+          <p style="font-size:.82rem;color:var(--text-secondary);line-height:1.55;">
+            Jeu d'apprentissage assisté par intelligence artificielle — interface interactive pour révisions et quiz.
+          </p>
+          <div style="display:flex;align-items:center;gap:1rem;margin-top:auto;padding-top:.75rem;border-top:1px solid var(--border-subtle);">
+            <span style="display:flex;align-items:center;gap:.35rem;font-size:.78rem;color:var(--text-muted);">
+              <span style="width:10px;height:10px;border-radius:50%;background:#f1e05a;display:inline-block;"></span>
+              JavaScript
+            </span>
+            <span style="font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted);">May 2026</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- diet-app-ai -->
+      <a href="https://github.com/Sajed-sj/diet-app-ai" target="_blank"
+         style="text-decoration:none;"
+         class="card">
+        <div style="padding:1.25rem;display:flex;flex-direction:column;gap:.75rem;">
+          <div style="display:flex;align-items:center;gap:.5rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--text-muted)"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.933.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            <span style="font-weight:700;color:var(--accent);font-size:.95rem;">diet-app-ai</span>
+            <span style="font-family:var(--font-mono);font-size:.65rem;padding:.1rem .4rem;background:var(--bg-surface-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-xs);color:var(--text-muted);">Public</span>
+          </div>
+          <p style="font-size:.82rem;color:var(--text-secondary);line-height:1.55;">
+            Application de nutrition et de diète assistée par IA — recommandations personnalisées basées sur les données utilisateur.
+          </p>
+          <div style="display:flex;align-items:center;gap:1rem;margin-top:auto;padding-top:.75rem;border-top:1px solid var(--border-subtle);">
+            <span style="font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted);">May 2026</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- school -->
+      <a href="https://github.com/Sajed-sj/school" target="_blank"
+         style="text-decoration:none;"
+         class="card">
+        <div style="padding:1.25rem;display:flex;flex-direction:column;gap:.75rem;">
+          <div style="display:flex;align-items:center;gap:.5rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--text-muted)"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.933.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            <span style="font-weight:700;color:var(--accent);font-size:.95rem;">school</span>
+            <span style="font-family:var(--font-mono);font-size:.65rem;padding:.1rem .4rem;background:var(--bg-surface-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-xs);color:var(--text-muted);">Public</span>
+          </div>
+          <p style="font-size:.82rem;color:var(--text-secondary);line-height:1.55;">
+            Projet académique Java — travaux et exercices de programmation réalisés durant la formation ISET.
+          </p>
+          <div style="display:flex;align-items:center;gap:1rem;margin-top:auto;padding-top:.75rem;border-top:1px solid var(--border-subtle);">
+            <span style="display:flex;align-items:center;gap:.35rem;font-size:.78rem;color:var(--text-muted);">
+              <span style="width:10px;height:10px;border-radius:50%;background:#b07219;display:inline-block;"></span>
+              Java
+            </span>
+            <span style="font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted);">Oct 2026</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- sj -->
+      <a href="https://github.com/Sajed-sj/sj" target="_blank"
+         style="text-decoration:none;"
+         class="card">
+        <div style="padding:1.25rem;display:flex;flex-direction:column;gap:.75rem;">
+          <div style="display:flex;align-items:center;gap:.5rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--text-muted)"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.11.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.933.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            <span style="font-weight:700;color:var(--accent);font-size:.95rem;">sj</span>
+            <span style="font-family:var(--font-mono);font-size:.65rem;padding:.1rem .4rem;background:var(--bg-surface-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-xs);color:var(--text-muted);">Public</span>
+          </div>
+          <p style="font-size:.82rem;color:var(--text-secondary);line-height:1.55;">
+            Dépôt personnel de configuration et de ressources.
+          </p>
+          <div style="display:flex;align-items:center;gap:1rem;margin-top:auto;padding-top:.75rem;border-top:1px solid var(--border-subtle);">
+            <span style="font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted);">May 2026</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <div style="text-align:center;">
+      <a href="https://github.com/Sajed-sj" target="_blank" class="btn btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.933.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        Voir tous les repos sur GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ EXPERIENCE ══════════════ -->
+<section class="section" id="experience">
+  <div class="container">
+    <div class="section-kicker">// 05. Expériences</div>
+    <h2 class="section-title">Stages professionnels</h2>
+    <p class="section-sub">Deux stages validés avec attestations officielles disponibles ci-dessous.</p>
+
+    <div class="timeline">
+
+      <!-- TT Telecom -->
+      <div class="tl-item">
+        <div class="tl-node"></div>
+        <div class="card tl-card">
+          <div>
+            <div class="tl-role">Stagiaire — Réseaux &amp; Maintenance</div>
+            <div class="tl-company">🏢 Tunisie Télécom — Direction Régionale Sidi Bouzid</div>
+            <div class="tl-meta">
+              <span>📅 05/01/2026 – 31/01/2026</span>
+              <span>📍 Sidi Bouzid, Tunisie</span>
+              <a href="assets/attestation_tt.jpg" target="_blank" style="color:var(--accent);font-size:.75rem;">📄 Attestation officielle ↗</a>
+            </div>
+          </div>
+          <ul class="tl-bullets">
+            <li>Maintenance préventive et curative des équipements réseau (commutateurs, routeurs)</li>
+            <li>Diagnostic et résolution d'incidents réseau en production</li>
+            <li>Configuration de base des équipements Cisco dans un environnement opérateur</li>
+            <li>Support technique aux équipes de la Direction Régionale</li>
+          </ul>
+          <div style="display:flex;flex-wrap:wrap;gap:.35rem;">
+            <span class="pill">Cisco</span>
+            <span class="pill">Maintenance réseau</span>
+            <span class="pill">Diagnostic incidents</span>
+            <span class="pill">Support technique</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Yebni -->
+      <div class="tl-item">
+        <div class="tl-node"></div>
+        <div class="card tl-card">
+          <div>
+            <div class="tl-role">Stagiaire — Réseaux &amp; Systèmes</div>
+            <div class="tl-company">🏢 Yebni Information et Communication — Tunis Monplaisir</div>
+            <div class="tl-meta">
+              <span>📅 06/01/2025 – 01/02/2025</span>
+              <span>📍 Tunis, Tunisie</span>
+              <a href="assets/attestation_yebni.jpg" target="_blank" style="color:var(--accent);font-size:.75rem;">📄 Attestation officielle ↗</a>
+            </div>
+          </div>
+          <ul class="tl-bullets">
+            <li>Observation et analyse du réseau interne de l'entreprise</li>
+            <li>Câblage réseau et installation de postes de travail</li>
+            <li>Support de niveau 1 : dépannage postes utilisateurs</li>
+            <li>Découverte d'un environnement professionnel ICT (ISP / hébergeur)</li>
+          </ul>
+          <div style="display:flex;flex-wrap:wrap;gap:.35rem;">
+            <span class="pill">Réseaux</span>
+            <span class="pill">Câblage</span>
+            <span class="pill">Support N1</span>
+            <span class="pill">ICT</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CERTIFICATES ══════════════ -->
+<section class="section" id="certs">
+  <div class="container">
+    <div class="section-kicker">// 06. Certificats &amp; Formation</div>
+    <h2 class="section-title">Attestations &amp; Certificats</h2>
+    <p class="section-sub">Documents officiels validant mon parcours académique et extra-académique.</p>
+
+    <div class="certs-grid">
+
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="assets/attestation_tt.jpg" alt="Attestation de stage Tunisie Télécom" loading="lazy" />
+        </div>
+        <div class="cert-info">
+          <span class="cert-badge">Stage officiel</span>
+          <div class="cert-name">Attestation de Stage — Tunisie Télécom</div>
+          <div class="cert-issuer">Direction Régionale de Sidi Bouzid · TT</div>
+          <div class="cert-date">05/01/2026 – 31/01/2026 · Délivrée le 23/02/2026</div>
+          <a href="assets/attestation_tt.jpg" target="_blank" class="btn btn-secondary" style="margin-top:.5rem;font-size:.78rem;padding:.45rem .85rem;">
+            🔍 Voir en grand
+          </a>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="assets/attestation_yebni.jpg" alt="Attestation de stage Yebni" loading="lazy" />
+        </div>
+        <div class="cert-info">
+          <span class="cert-badge">Stage officiel</span>
+          <div class="cert-name">Attestation de Stage — Yebni Information et Communication</div>
+          <div class="cert-issuer">Yebni Info &amp; Com · Tunis Monplaisir</div>
+          <div class="cert-date">06/01/2025 – 01/02/2025 · Délivrée le 31/01/2025</div>
+          <a href="assets/attestation_yebni.jpg" target="_blank" class="btn btn-secondary" style="margin-top:.5rem;font-size:.78rem;padding:.45rem .85rem;">
+            🔍 Voir en grand
+          </a>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="assets/cert_softskills.jpg" alt="Certificate Soft Skills Tunivisions" loading="lazy" />
+        </div>
+        <div class="cert-info">
+          <span class="cert-badge">Formation extra-académique</span>
+          <div class="cert-name">Certificate — Workshop Soft Skills</div>
+          <div class="cert-issuer">Tunivisions Club Sidi Bouzid</div>
+          <div class="cert-date">Excellence in interpersonal &amp; professional skills</div>
+          <a href="assets/cert_softskills.jpg" target="_blank" class="btn btn-secondary" style="margin-top:.5rem;font-size:.78rem;padding:.45rem .85rem;">
+            🔍 Voir en grand
+          </a>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="assets/cert_leadership.jpg" alt="Certificat Art of Leadership ISET" loading="lazy" />
+        </div>
+        <div class="cert-info">
+          <span class="cert-badge">Formation leadership</span>
+          <div class="cert-name">Certificat — Art of Leadership</div>
+          <div class="cert-issuer">CDS Club · ISET Sidi Bouzid</div>
+          <div class="cert-date">20 novembre 2024 · Leadership, communication, gestion stratégique</div>
+          <a href="assets/cert_leadership.jpg" target="_blank" class="btn btn-secondary" style="margin-top:.5rem;font-size:.78rem;padding:.45rem .85rem;">
+            🔍 Voir en grand
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CONTACT ══════════════ -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-kicker">// 07. Contact</div>
+    <h2 class="section-title">Me contacter</h2>
+    <p class="section-sub">Disponible pour un stage PFE ou un premier poste junior en cybersécurité.</p>
+
+    <div class="contact-grid">
+      <div>
+        <div class="contact-channels">
+          <div class="ch-card">
+            <div class="ch-icon">✉</div>
+            <div>
+              <div class="ch-label">Email</div>
+              <div class="ch-value">sajed.jemli@email.com</div>
+            </div>
+          </div>
+          <div class="ch-card">
+            <div class="ch-icon">📞</div>
+            <div>
+              <div class="ch-label">Téléphone</div>
+              <div class="ch-value">+216 [xx xxx xxx]</div>
+            </div>
+          </div>
+          <div class="ch-card">
+            <div class="ch-icon">📍</div>
+            <div>
+              <div class="ch-label">Localisation</div>
+              <div class="ch-value">Sidi Bouzid, Tunisie</div>
+            </div>
+          </div>
+          <a href="https://github.com/Sajed-sj" target="_blank" class="ch-card" style="text-decoration:none;cursor:pointer;">
+            <div class="ch-icon" style="color:#0A66C2;">in</div>
+            <div>
+              <div class="ch-label">LinkedIn</div>
+              <div class="ch-value">sajed-jemli ↗</div>
+            </div>
+          </a>
+        </div>
+
+        <div style="margin-top:1.5rem;padding:1.25rem;background:var(--bg-surface);border:1px solid var(--accent-border);border-radius:var(--radius-sm);">
+          <div style="font-family:var(--font-mono);font-size:.7rem;color:var(--accent);font-weight:600;margin-bottom:.75rem;">📄 TÉLÉCHARGER MES ATTESTATIONS</div>
+          <div style="display:flex;flex-direction:column;gap:.5rem;">
+            <a href="assets/attestation_tt.jpg" download class="btn btn-secondary" style="justify-content:flex-start;font-size:.82rem;">⬇ Attestation TT Telecom (2026)</a>
+            <a href="assets/attestation_yebni.jpg" download class="btn btn-secondary" style="justify-content:flex-start;font-size:.82rem;">⬇ Attestation Yebni (2025)</a>
+            <a href="assets/cert_softskills.jpg" download class="btn btn-secondary" style="justify-content:flex-start;font-size:.82rem;">⬇ Certificat Soft Skills</a>
+            <a href="assets/cert_leadership.jpg" download class="btn btn-secondary" style="justify-content:flex-start;font-size:.82rem;">⬇ Certificat Art of Leadership</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <h3 style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;margin-bottom:.25rem;">Envoyer un message</h3>
+        <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:.5rem;">Je réponds sous 24h.</p>
+        <div class="form-group">
+          <label class="form-label">Nom / Entreprise</label>
+          <input class="form-input" type="text" placeholder="Votre nom ou entreprise" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" placeholder="votre@email.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Objet</label>
+          <input class="form-input" type="text" placeholder="Stage PFE / Poste junior / Autre" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" placeholder="Décrivez votre offre ou votre question..."></textarea>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="alert('Pour activer ce formulaire, configurez un service email (Formspree, EmailJS…)')">
+          ✉ Envoyer le message
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="nav-brand">
+          <div class="nav-badge">SJ</div>
+          <span>Sajed Jemli</span>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+          <span class="pill">RSI · ISET Sidi Bouzid</span>
+          <span class="pill hi">🔍 Open to opportunities</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Sajed Jemli — Portfolio professionnel</span>
+        <span style="font-family:var(--font-mono);font-size:.72rem;">Analyste SOC junior · Réseaux · Cybersécurité</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════ SCRIPTS ══════════════ -->
+<script>
+  // ── Navbar scroll ──
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // ── Active nav link ──
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin:'-40% 0px -55% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  // ── Theme toggle ──
+  const themeBtn = document.getElementById('themeToggle');
+  let dark = true;
+  themeBtn.addEventListener('click', () => {
+    dark = !dark;
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    themeBtn.textContent = dark ? '🌙' : '☀️';
+  });
+
+  // ── Mobile drawer ──
+  const drawer = document.getElementById('drawer');
+  document.getElementById('menuBtn').addEventListener('click', () => drawer.classList.add('open'));
+  drawer.addEventListener('click', e => { if (e.target === drawer) drawer.classList.remove('open'); });
+  function closeDrawer() { drawer.classList.remove('open'); }
+
+  // ── Skills tabs ──
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabPanels = document.querySelectorAll('.skills-panel');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabPanels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
