@@ -1402,13 +1402,31 @@
           <label class="form-label">Message</label>
           <textarea class="form-textarea" placeholder="Décrivez votre offre ou votre question..."></textarea>
         </div>
-        <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="alert('Pour activer ce formulaire, configurez un service email (Formspree, EmailJS…)')">
+        <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="sendEmail()">
           ✉ Envoyer le message
         </button>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+function sendEmail() {
+  const name = document.querySelector('.form-input[type="text"]').value;
+  const email = document.querySelector('.form-input[type="email"]').value;
+  const subject = document.querySelectorAll('.form-input[type="text"]')[1].value;
+  const message = document.querySelector('.form-textarea').value;
+  
+  if (!name || !email || !message) {
+    alert('Veuillez remplir tous les champs obligatoires.');
+    return;
+  }
+  
+  const mailBody = 'De: ' + name + '%0AEmail: ' + email + '%0A%0A' + encodeURIComponent(message);
+  const mailSubject = encodeURIComponent(subject || 'Contact depuis le Portfolio');
+  
+  window.location.href = 'mailto:sajedjamli144@gmail.com?subject=' + mailSubject + '&body=' + mailBody;
+}
 
 <!-- ══════════════ FOOTER ══════════════ -->
 <footer>
