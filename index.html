@@ -569,6 +569,181 @@
     .form-textarea { min-height:110px; resize:vertical; }
 
     /* ═══════════════════════════════════════
+       ── AI CHATBOT ──
+    ═══════════════════════════════════════ */
+    .chatbot-toggle {
+      position:fixed; bottom:1.5rem; right:1.5rem; z-index:2000;
+      width:60px; height:60px; border-radius:50%;
+      background:var(--accent); color:#fff; border:none;
+      box-shadow:0 4px 20px rgba(37,99,235,.4);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.6rem; cursor:pointer;
+      transition:all .25s var(--ease);
+      animation: chatPulse 3s ease-in-out infinite;
+    }
+    .chatbot-toggle:hover { transform:scale(1.1); box-shadow:0 6px 28px rgba(37,99,235,.55); }
+    .chatbot-toggle.active { animation:none; background:var(--accent-hover); }
+    @keyframes chatPulse {
+      0%,100%{ box-shadow:0 4px 20px rgba(37,99,235,.4); }
+      50%{ box-shadow:0 4px 30px rgba(37,99,235,.65); }
+    }
+
+    .chatbot-window {
+      position:fixed; bottom:6rem; right:1.5rem; z-index:2000;
+      width:380px; max-width:calc(100vw - 2rem);
+      max-height:520px; height:520px;
+      background:var(--bg-surface);
+      border:1px solid var(--border-medium);
+      border-radius:var(--radius-lg);
+      box-shadow:var(--shadow-lg);
+      display:flex; flex-direction:column;
+      opacity:0; pointer-events:none;
+      transform:translateY(20px) scale(.95);
+      transition:all .3s var(--ease);
+      overflow:hidden;
+    }
+    .chatbot-window.open {
+      opacity:1; pointer-events:auto;
+      transform:translateY(0) scale(1);
+    }
+    .chat-header {
+      background:linear-gradient(135deg, #1e3a8a 0%, var(--accent) 100%);
+      padding:1rem 1.25rem;
+      display:flex; align-items:center; gap:.75rem;
+      flex-shrink:0;
+    }
+    .chat-avatar {
+      width:40px; height:40px; border-radius:50%;
+      background:rgba(255,255,255,.15);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.2rem; flex-shrink:0;
+    }
+    .chat-header-info { flex:1; }
+    .chat-header-name { font-weight:700; color:#fff; font-size:.95rem; }
+    .chat-header-status { font-size:.72rem; color:rgba(255,255,255,.75); display:flex; align-items:center; gap:.35rem; }
+    .chat-header-status .dot-online { width:6px; height:6px; border-radius:50%; background:#10B981; }
+    .chat-close {
+      background:rgba(255,255,255,.15); border:none;
+      width:30px; height:30px; border-radius:50%;
+      color:#fff; cursor:pointer; font-size:1rem;
+      display:flex; align-items:center; justify-content:center;
+      transition:background .15s;
+    }
+    .chat-close:hover { background:rgba(255,255,255,.3); }
+
+    .chat-messages {
+      flex:1; overflow-y:auto; padding:1rem;
+      display:flex; flex-direction:column; gap:.75rem;
+      scrollbar-width:thin;
+      scrollbar-color: var(--border-medium) transparent;
+    }
+    .chat-msg {
+      max-width:85%; padding:.7rem 1rem;
+      border-radius:var(--radius-md);
+      font-size:.85rem; line-height:1.55;
+      word-wrap:break-word;
+    }
+    .chat-msg.bot {
+      align-self:flex-start;
+      background:var(--bg-surface-elevated);
+      border:1px solid var(--border-subtle);
+      color:var(--text-primary);
+      border-bottom-left-radius:var(--radius-xs);
+    }
+    .chat-msg.user {
+      align-self:flex-end;
+      background:var(--accent);
+      color:#fff;
+      border-bottom-right-radius:var(--radius-xs);
+    }
+    .chat-msg.bot .msg-label {
+      font-family:var(--font-mono); font-size:.65rem;
+      color:var(--accent); font-weight:600;
+      margin-bottom:.25rem; display:block;
+    }
+    .chat-msg.user .msg-label {
+      font-family:var(--font-mono); font-size:.65rem;
+      color:rgba(255,255,255,.7); font-weight:600;
+      margin-bottom:.25rem; display:block; text-align:right;
+    }
+    .chat-typing {
+      align-self:flex-start;
+      background:var(--bg-surface-elevated);
+      border:1px solid var(--border-subtle);
+      padding:.7rem 1rem;
+      border-radius:var(--radius-md);
+      border-bottom-left-radius:var(--radius-xs);
+      display:none; gap:.3rem; align-items:center;
+    }
+    .chat-typing.active { display:flex; }
+    .typing-dot {
+      width:6px; height:6px; border-radius:50%;
+      background:var(--text-muted);
+      animation: typingBounce 1.4s ease-in-out infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay:.2s; }
+    .typing-dot:nth-child(3) { animation-delay:.4s; }
+    @keyframes typingBounce {
+      0%,60%,100%{ transform:translateY(0); opacity:.4; }
+      30%{ transform:translateY(-5px); opacity:1; }
+    }
+
+    .chat-suggestions {
+      padding:.5rem 1rem .25rem;
+      display:flex; flex-wrap:wrap; gap:.35rem;
+      flex-shrink:0;
+    }
+    .suggest-btn {
+      font-family:var(--font-sans);
+      font-size:.72rem; font-weight:500;
+      padding:.35rem .65rem;
+      border-radius:var(--radius-full);
+      background:var(--accent-subtle);
+      color:var(--accent);
+      border:1px solid var(--accent-border);
+      cursor:pointer;
+      transition:all .15s;
+      white-space:nowrap;
+    }
+    .suggest-btn:hover {
+      background:var(--accent); color:#fff;
+      border-color:var(--accent);
+    }
+
+    .chat-input-wrap {
+      display:flex; align-items:center; gap:.5rem;
+      padding:.75rem 1rem;
+      border-top:1px solid var(--border-subtle);
+      flex-shrink:0;
+      background:var(--bg-secondary);
+    }
+    .chat-input {
+      flex:1; font-family:var(--font-sans);
+      font-size:.85rem; color:var(--text-primary);
+      background:var(--bg-surface);
+      border:1px solid var(--border-subtle);
+      border-radius:var(--radius-full);
+      padding:.55rem 1rem;
+      outline:none;
+      transition:border-color .15s;
+    }
+    .chat-input:focus { border-color:var(--accent); }
+    .chat-input::placeholder { color:var(--text-muted); }
+    .chat-send {
+      width:36px; height:36px; border-radius:50%;
+      background:var(--accent); color:#fff; border:none;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; font-size:1rem;
+      transition:background .15s;
+      flex-shrink:0;
+    }
+    .chat-send:hover { background:var(--accent-hover); }
+
+    @media(max-width:480px){
+      .chatbot-window { bottom:0; right:0; left:0; width:100%; max-width:100%; height:100vh; max-height:100vh; border-radius:0; }
+    }
+
+    /* ═══════════════════════════════════════
        ── FOOTER ──
     ═══════════════════════════════════════ */
     footer {
@@ -1422,10 +1597,10 @@ function sendEmail() {
     return;
   }
   
-  const mailBody = 'De: ' + name + '%0AEmail: ' + email + '%0A%0A' + encodeURIComponent(message);
-  const mailSubject = encodeURIComponent(subject || 'Contact depuis le Portfolio');
+  const mailBody = 'De: ' + name + '\nEmail: ' + email + '\n\n' + message;
+  const mailSubject = subject || 'Contact depuis le Portfolio';
   
-  window.location.href = 'mailto:sajedjamli144@gmail.com?subject=' + mailSubject + '&body=' + mailBody;
+  window.location.href = 'mailto:sajedjamli144@gmail.com?subject=' + encodeURIComponent(mailSubject) + '&body=' + encodeURIComponent(mailBody);
 }
 </script>
 
@@ -1499,6 +1674,339 @@ function sendEmail() {
       document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
     });
   });
+</script>
+
+<!-- ══════════════ AI CHATBOT ══════════════ -->
+<button class="chatbot-toggle" id="chatToggle" title="Discutez avec l'assistant AI de Sajed" aria-label="Ouvrir le chatbot">
+  🤖
+</button>
+
+<div class="chatbot-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-avatar">🤖</div>
+    <div class="chat-header-info">
+      <div class="chat-header-name">Sajed AI Assistant</div>
+      <div class="chat-header-status">
+        <span class="dot-online"></span> En ligne — Posez vos questions
+      </div>
+    </div>
+    <button class="chat-close" id="chatClose" aria-label="Fermer">✕</button>
+  </div>
+
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot">
+      <span class="msg-label">🤖 Assistant AI</span>
+      Bonjour ! 👋 Je suis l'assistant virtuel de <strong>Sajed Jemli</strong>. Je peux répondre à vos questions sur ses compétences, certifications, expériences et projets. Que souhaitez-vous savoir ?
+    </div>
+  </div>
+
+  <div class="chat-typing" id="chatTyping">
+    <span class="typing-dot"></span>
+    <span class="typing-dot"></span>
+    <span class="typing-dot"></span>
+  </div>
+
+  <div class="chat-suggestions" id="chatSuggestions">
+    <button class="suggest-btn" onclick="askSuggestion(this)">🎓 Formation ?</button>
+    <button class="suggest-btn" onclick="askSuggestion(this)">🛡 NetGuardian Pro ?</button>
+    <button class="suggest-btn" onclick="askSuggestion(this)">📜 Certifications ?</button>
+    <button class="suggest-btn" onclick="askSuggestion(this)">💼 Stages ?</button>
+    <button class="suggest-btn" onclick="askSuggestion(this)">🔧 Compétences ?</button>
+    <button class="suggest-btn" onclick="askSuggestion(this)">🌐 Langues ?</button>
+    <button class="suggest-btn" onclick="askSuggestion(this)">📧 Contact ?</button>
+  </div>
+
+  <div class="chat-input-wrap">
+    <input class="chat-input" id="chatInput" type="text" placeholder="Posez votre question..." autocomplete="off" />
+    <button class="chat-send" id="chatSend" aria-label="Envoyer">➤</button>
+  </div>
+</div>
+
+<script>
+// ══════════════ AI CHATBOT ENGINE ══════════════
+(function() {
+  const KB = {
+    identity: {
+      name: "Sajed Jemli",
+      role: "Étudiant en 3e année RSI (Réseaux et Systèmes Informatiques)",
+      school: "ISET Sidi Bouzid, Tunisie",
+      bac: "Baccalauréat Sciences Techniques (2022, Mention Bien)",
+      objective: "Analyste SOC junior / Technicien cybersécurité",
+      objectifMoyen: "Ingénieur cybersécurité après certification Cisco CyberOps Associate",
+      email: "sajedjamli144@gmail.com",
+      phone: "+216 99 149 293",
+      github: "https://github.com/Sajed-sj",
+      location: "Sidi Bouzid, Tunisie"
+    },
+    skills: {
+      reseaux: [
+        { name: "Réseaux Cisco (routeurs/commutateurs)", level: "3/5", proof: "Projet NetGuardian Pro" },
+        { name: "IPv4/IPv6 — Adressage", level: "3/5", proof: "Cours + NetGuardian Pro" },
+        { name: "VLAN + Trunks 802.1Q", level: "3/5", proof: "NetGuardian Pro — 3 LAN" },
+        { name: "Routage OSPF", level: "3/5", proof: "Déployé dans NetGuardian Pro" },
+        { name: "Routage EIGRP", level: "2/5", proof: "Cours théorique" },
+        { name: "Administration Linux", level: "2/5", proof: "Bases en cours" }
+      ],
+      securite: [
+        { name: "ACL étendues", level: "2/5", proof: "NetGuardian Pro" },
+        { name: "SSH — Admin sécurisée", level: "2/5", proof: "NetGuardian Pro" },
+        { name: "Port Security (Cisco)", level: "2/5", proof: "NetGuardian Pro" },
+        { name: "Wireshark", level: "1/5", proof: "TryHackMe en cours" },
+        { name: "Nmap — Scan réseau", level: "1/5", proof: "Découverte" },
+        { name: "SIEM (SOC)", level: "0/5", proof: "À acquérir — priorité PFE" }
+      ],
+      dev: [
+        { name: "Python — Scripting", level: "3/5", proof: "Travaux de formation" },
+        { name: "Cisco Packet Tracer", level: "3/5", proof: "NetGuardian Pro" },
+        { name: "Linux (Ubuntu)", level: "2/5", proof: "Bases" },
+        { name: "Git/GitHub", level: "2/5", proof: "Utilisation basique" },
+        { name: "Docker", level: "1/5", proof: "Bases" }
+      ],
+      soft: [
+        "Résolution de problèmes techniques (stage TT)",
+        "Leadership & Communication (Certificat Art of Leadership)",
+        "Soft Skills professionnels (Certificat Tunivisions Club)",
+        "Esprit analytique (Conception NetGuardian Pro)",
+        "Apprentissage autonome (TryHackMe, Hack The Box)"
+      ]
+    },
+    project: {
+      name: "Cisco NetGuardian Pro",
+      type: "Projet académique — ISET Sidi Bouzid",
+      description: "Conception et déploiement d'un réseau d'entreprise complet et sécurisé sous Cisco Packet Tracer. Infrastructure avec 3 sites (LAN), sécurisation multicouche.",
+      specs: "3 routeurs Cisco 2911, 3 commutateurs Cisco 2960, 3 LAN, VLAN + trunks 802.1Q, routage OSPF multi-area, ACL étendues, SSH (Telnet désactivé), Port Security",
+      achievements: "Isolation inter-VLAN, Contrôle d'accès réseau, Admin à distance sécurisée, Protection contre MAC flooding"
+    },
+    stages: [
+      {
+        company: "Tunisie Télécom — Direction Régionale Sidi Bouzid",
+        role: "Stagiaire Réseaux & Maintenance",
+        period: "05/01/2026 – 31/01/2026",
+        location: "Sidi Bouzid, Tunisie",
+        tasks: "Maintenance préventive et curative des équipements réseau, diagnostic et résolution d'incidents en production, configuration Cisco, support technique"
+      },
+      {
+        company: "Yebni Information et Communication",
+        role: "Stagiaire Réseaux & Systèmes",
+        period: "06/01/2025 – 01/02/2025",
+        location: "Tunis Monplaisir, Tunisie",
+        tasks: "Observation et analyse réseau, câblage et installation de postes, support N1, découverte environnement ICT/ISP"
+      }
+    ],
+    certificates: [
+      { name: "Attestation de Stage — Tunisie Télécom", issuer: "Direction Régionale de Sidi Bouzid", date: "2026" },
+      { name: "Attestation de Stage — Yebni Information et Communication", issuer: "Yebni Info & Com, Tunis", date: "2025" },
+      { name: "Certificate — Workshop Soft Skills", issuer: "Tunivisions Club Sidi Bouzid", date: "Excellence in interpersonal & professional skills" },
+      { name: "Certificat — Art of Leadership", issuer: "CDS Club, ISET Sidi Bouzid", date: "20 novembre 2024" }
+    ],
+    languages: [
+      { lang: "Arabe", level: "Langue maternelle" },
+      { lang: "Français", level: "B2 — Courant" },
+      { lang: "Anglais", level: "B1 — Intermédiaire" }
+    ]
+  };
+
+  // ── Pattern matching ──
+  const patterns = [
+    {
+      keys: ["formation", "etude", "étude", "diplome", "diplôme", "bac", "iset", "licence", "school", "university", "universite", "parcours", "education", "études"],
+      answer: () => `🎓 **Formation de Sajed :**\n\n• **Licence RSI** (Réseaux et Systèmes Informatiques) — ISET Sidi Bouzid (2022–2025), 3e année\n• **Bac Sciences Techniques** — 2022, Mention Bien\n\n🎯 Objectif : Analyste SOC junior / Technicien cybersécurité`
+    },
+    {
+      keys: ["competence", "compétence", "skill", "skills", "technique", "stack", "tech"],
+      answer: () => {
+        let r = "🔧 **Compétences techniques de Sajed :**\n\n**Réseaux (points forts) :**\n";
+        KB.skills.reseaux.forEach(s => r += `• ${s.name} — ${s.level} (${s.proof})\n`);
+        r += "\n**Sécurité :**\n";
+        KB.skills.securite.forEach(s => r += `• ${s.name} — ${s.level}\n`);
+        r += "\n**Dev/Outils :**\n";
+        KB.skills.dev.forEach(s => r += `• ${s.name} — ${s.level}\n`);
+        return r;
+      }
+    },
+    {
+      keys: ["soft skill", "softskill", "communication", "leadership", "personnel"],
+      answer: () => {
+        let r = "💡 **Soft Skills de Sajed :**\n\n";
+        KB.skills.soft.forEach(s => r += `• ${s}\n`);
+        return r;
+      }
+    },
+    {
+      keys: ["netguardian", "projet", "project", "packet tracer", "cisco", "réseau", "reseau", "network"],
+      answer: () => `🛡 **${KB.project.name}**\n${KB.project.type}\n\n${KB.project.description}\n\n⚙ **Spécifications :** ${KB.project.specs}\n\n✅ **Objectifs atteints :** ${KB.project.achievements}`
+    },
+    {
+      keys: ["stage", "experience", "expérience", "travail", "emploi", "tt", "telecom", "yebni", "tunisie telecom"],
+      answer: () => {
+        let r = "💼 **Stages professionnels de Sajed :**\n\n";
+        KB.stages.forEach((s, i) => {
+          r += `**${i+1}. ${s.company}**\n`;
+          r += `   • Rôle : ${s.role}\n`;
+          r += `   • Période : ${s.period}\n`;
+          r += `   • Lieu : ${s.location}\n`;
+          r += `   • Missions : ${s.tasks}\n\n`;
+        });
+        return r;
+      }
+    },
+    {
+      keys: ["certif", "certificat", "attestation", "diplome", "workshop"],
+      answer: () => {
+        let r = "📜 **Certificats & Attestations de Sajed :**\n\n";
+        KB.certificates.forEach((c, i) => {
+          r += `${i+1}. **${c.name}**\n   Délivré par : ${c.issuer}\n   Date : ${c.date}\n\n`;
+        });
+        r += "📄 Toutes les attestations sont téléchargeables dans la section Contact du portfolio.";
+        return r;
+      }
+    },
+    {
+      keys: ["langue", "language", "arabe", "francais", "français", "anglais", "english", "french", "arabic"],
+      answer: () => {
+        let r = "🌐 **Langues de Sajed :**\n\n";
+        KB.languages.forEach(l => r += `• **${l.lang}** — ${l.level}\n`);
+        return r;
+      }
+    },
+    {
+      keys: ["contact", "email", "mail", "telephone", "téléphone", "phone", "appeler", "joindre", "recruter"],
+      answer: () => `📧 **Contact de Sajed :**\n\n• ✉ Email : ${KB.identity.email}\n• 📞 Téléphone : ${KB.identity.phone}\n• 💻 GitHub : ${KB.identity.github}\n• 📍 Localisation : ${KB.identity.location}\n\n💡 Vous pouvez aussi utiliser le formulaire de contact sur cette page.`
+    },
+    {
+      keys: ["objectif", "goal", "ambition", "carriere", "carrière", "avenir", "futur", "plan"],
+      answer: () => `🎯 **Objectifs de carrière de Sajed :**\n\n• **Court terme :** Analyste SOC junior / Technicien cybersécurité — stage PFE ou premier poste\n• **Moyen terme :** Certification Cisco CyberOps Associate, puis évolution vers l'ingénierie en cybersécurité\n\n📌 Sajed est actuellement disponible pour un stage PFE ou un poste junior en cybersécurité.`
+    },
+    {
+      keys: ["github", "repo", "repository", "code", "projet personnel", "open source"],
+      answer: () => `💻 **GitHub de Sajed (${KB.identity.github}) :**\n\n• **ai-study-game** — Jeu d'apprentissage IA (JavaScript)\n• **diet-app-ai** — App nutrition assistée par IA\n• **school** — Travaux académiques Java (ISET)\n• **sj** — Dépôt personnel\n• **portfolio** — Ce portfolio\n\n🔗 Visitez son GitHub pour voir tous les repos.`
+    },
+    {
+      keys: ["qui", "who", "présent", "present", "about", "propos", "sajed", "profil"],
+      answer: () => `👤 **${KB.identity.name}**\n\n${KB.identity.role} à ${KB.identity.school}.\n\n🎓 Bac : ${KB.identity.bac}\n🎯 Objectif : ${KB.identity.objective}\n📍 ${KB.identity.location}\n\nSajed se spécialise progressivement en cybersécurité réseau à travers son projet NetGuardian Pro et 2 stages validés en entreprise.`
+    },
+    {
+      keys: ["disponible", "available", "embauche", "hire", "recruter", "pfe", "stage"],
+      answer: () => `✅ **Oui, Sajed est actuellement disponible !**\n\nIl recherche :\n• Un **stage PFE** en cybersécurité / réseaux\n• Ou un **premier poste junior** (Analyste SOC, Technicien cybersécurité)\n\n📧 Contactez-le : ${KB.identity.email}\n📞 Ou appelez : ${KB.identity.phone}`
+    },
+    {
+      keys: ["bonjour", "salut", "hello", "hi", "hey", "bonsoir", "coucou", "salam"],
+      answer: () => `Bonjour ! 👋 Bienvenue sur le portfolio de Sajed Jemli. Comment puis-je vous aider ? Vous pouvez me poser des questions sur :\n\n• 🎓 Sa formation\n• 🔧 Ses compétences\n• 🛡 Son projet NetGuardian Pro\n• 💼 Ses stages\n• 📜 Ses certificats\n• 📧 Comment le contacter`
+    },
+    {
+      keys: ["merci", "thanks", "thank", "super", "parfait", "genial", "cool"],
+      answer: () => `De rien ! 😊 Si vous avez d'autres questions sur Sajed, n'hésitez pas. Vous pouvez aussi le contacter directement à ${KB.identity.email}. Bonne visite !`
+    },
+    {
+      keys: ["oscp", "cyberops", "certification cisco", "ccna", "cyber"],
+      answer: () => `📋 **Certifications visées par Sajed :**\n\n• **Priorité :** Cisco CyberOps Associate — certification en cybersécurité SOC\n• Les certifications actuelles sont des attestations de stage (TT, Yebni) et des certificats extra-académiques (Soft Skills, Leadership)\n\n🎯 L'objectif est d'obtenir CyberOps Associate pour évoluer vers l'ingénierie cybersécurité.`
+    },
+    {
+      keys: ["ospf", "vlan", "acl", "ssh", "port security", "routage", "switching"],
+      answer: () => `🔒 **Compétences réseau/sécurité spécifiques :**\n\n• **OSPF** — 3/5 — Routage multi-area déployé dans NetGuardian Pro\n• **VLAN + 802.1Q** — 3/5 — Segmentation de 3 LAN\n• **ACL étendues** — 2/5 — Filtrage de trafic configuré\n• **SSH** — 2/5 — Administration sécurisée (Telnet désactivé)\n• **Port Security** — 2/5 — Protection contre MAC flooding\n\nTout ceci est démontrable via le projet NetGuardian Pro sous Packet Tracer.`
+    }
+  ];
+
+  function findAnswer(input) {
+    const q = input.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    
+    let bestMatch = null;
+    let bestScore = 0;
+    
+    for (const p of patterns) {
+      let score = 0;
+      for (const key of p.keys) {
+        const normalKey = key.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        if (q.includes(normalKey)) {
+          score += normalKey.length;
+        }
+      }
+      if (score > bestScore) {
+        bestScore = score;
+        bestMatch = p;
+      }
+    }
+    
+    if (bestMatch && bestScore > 0) {
+      return bestMatch.answer();
+    }
+    
+    return `Je n'ai pas trouvé d'information précise pour cette question. 🤔\n\nVoici ce que je peux vous dire sur Sajed :\n• 🎓 Formation (RSI, ISET)\n• 🔧 Compétences techniques\n• 🛡 Projet NetGuardian Pro\n• 💼 Stages (TT, Yebni)\n• 📜 Certificats\n• 📧 Coordonnées\n\nEssayez un de ces sujets, ou contactez Sajed directement à ${KB.identity.email}`;
+  }
+
+  // ── UI Logic ──
+  const toggle = document.getElementById('chatToggle');
+  const win = document.getElementById('chatWindow');
+  const closeBtn = document.getElementById('chatClose');
+  const messagesDiv = document.getElementById('chatMessages');
+  const input = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('chatSend');
+  const typingDiv = document.getElementById('chatTyping');
+
+  toggle.addEventListener('click', () => {
+    const isOpen = win.classList.toggle('open');
+    toggle.classList.toggle('active', isOpen);
+    toggle.textContent = isOpen ? '✕' : '🤖';
+    if (isOpen) input.focus();
+  });
+
+  closeBtn.addEventListener('click', () => {
+    win.classList.remove('open');
+    toggle.classList.remove('active');
+    toggle.textContent = '🤖';
+  });
+
+  function addMessage(text, isUser) {
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + (isUser ? 'user' : 'bot');
+    const label = document.createElement('span');
+    label.className = 'msg-label';
+    label.textContent = isUser ? '👤 Vous' : '🤖 Assistant AI';
+    div.appendChild(label);
+    
+    // Simple markdown-like formatting
+    const content = document.createElement('span');
+    let formatted = text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br>');
+    content.innerHTML = formatted;
+    div.appendChild(content);
+    
+    messagesDiv.appendChild(div);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  function handleSend() {
+    const q = input.value.trim();
+    if (!q) return;
+    
+    addMessage(q, true);
+    input.value = '';
+    
+    // Show typing
+    typingDiv.classList.add('active');
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    
+    // Simulate thinking delay
+    const delay = 400 + Math.random() * 800;
+    setTimeout(() => {
+      typingDiv.classList.remove('active');
+      const answer = findAnswer(q);
+      addMessage(answer, false);
+    }, delay);
+  }
+
+  sendBtn.addEventListener('click', handleSend);
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleSend();
+  });
+
+  // Suggestion buttons
+  window.askSuggestion = function(btn) {
+    input.value = btn.textContent.replace(/^[^\s]+\s/, '').replace('?', '') + ' ?';
+    handleSend();
+  };
+})();
 </script>
 
 </body>
